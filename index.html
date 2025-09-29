@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dollarWize - Master Your Financial Future</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #3e688c 0%, #69bfbf 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #03a63c;
+        }
+
+        /* Styles for when the header is scrolled */
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header.scrolled .logo {
+            color: #3e688c;
+        }
+
+        header.scrolled .nav-links a {
+            color: #333;
+        }
+
+        header.scrolled .nav-links a:hover {
+            color: #03a63c;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #03a63c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5ba66e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #3e688c;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            background: white;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #e8f2f7;
+            color: #3e688c;
+            font-size: 2.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #3e688c;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Call to Action Section */
+        .cta {
+            background: #f8f9fa;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: #3e688c;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header id="mainHeader">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">dollarWize</a>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="active-nav">Home</a></li>
+                    <li><a href="quiz_level.html">Assessment</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Master Your Financial Future.</h1>
+                    <p>Build a strong financial foundation with engaging, easy-to-understand content and interactive learning designed for you.</p>
+                    <a href="quiz_level.html" class="btn btn-primary">Start Your Financial Journey</a>
+                    <a href="glossary.html" class="btn btn-secondary" style="margin-left: 1rem;">Explore the Glossary</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 style="text-align: center;">Why Choose dollarWize?</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">We break down complex US financial topics into simple, actionable steps, empowering you to make smart decisions for your financial success.</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+                        <h3>Gamified Learning</h3>
+                        <p>Transform complex financial concepts into engaging, interactive experiences. Our quiz-based approach makes learning about budgeting, investing, and credit management both fun and memorable.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>Personalized Education</h3>
+                        <p>Our assessment quiz helps identify your current financial knowledge and tailors a learning path specifically for you, focusing on the topics where you can improve the most.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-book-open"></i></div>
+                        <h3>Comprehensive Glossary</h3>
+                        <p>Get clear, concise definitions for hundreds of US financial terms. From understanding your FICO score to decoding tax law, our glossary is your go-to resource.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3>Track Your Progress</h3>
+                        <p>See how far you've come. Our progress tracking system lets you monitor your quiz scores, mastery of different topics, and overall financial literacy growth.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <div class="container">
+                <h2>Ready to take control of your money?</h2>
+                <p>Start with our assessment quiz to discover your financial literacy level and receive a personalized learning plan.</p>
+                <a href="quiz_level.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 15px 40px;">Take the Assessment Quiz</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 dollarWize. Empowering financial literacy across America.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Get the header element
+        const header = document.getElementById('mainHeader');
+        // Define the scroll threshold (e.g., height of the hero section)
+        const heroSection = document.querySelector('.hero');
+        let scrollThreshold = heroSection ? heroSection.offsetHeight - 50 : 200; // Adjust as needed
+
+        // Function to handle scroll event
+        function handleScroll() {
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+
+        // Initial check in case the page is loaded with a scroll position
+        document.addEventListener('DOMContentLoaded', handleScroll);
+
+        // Update scroll threshold on window resize
+        window.addEventListener('resize', () => {
+            scrollThreshold = heroSection ? heroSection.offsetHeight - 50 : 200;
+            handleScroll(); // Re-evaluate scroll state
+        });
+    </script>
+</body>
+</html>

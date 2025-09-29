@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Literacy Assessment - dollarWize</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #3e688c 0%, #69bfbf 100%);
+            min-height: 100vh;
+            padding-top: 60px; /* Added padding for fixed header */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header and Navigation Styles (copied from index.html) */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #03a63c;
+        }
+
+        /* Styles for when the header is scrolled */
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header.scrolled .logo {
+            color: #3e688c;
+        }
+
+        header.scrolled .nav-links a {
+            color: #333;
+        }
+
+        header.scrolled .nav-links a:hover {
+            color: #03a63c;
+        }
+        /* End Header and Navigation Styles */
+
+        .quiz-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+        }
+
+        .quiz-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .quiz-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .question-container {
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            font-size: 1.1rem;
+        }
+
+        .option:hover {
+            border-color: #69bfbf;
+            background: #f8f9fa;
+        }
+
+        .option.selected {
+            border-color: #3e688c;
+            background: #e8f2f7;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #03a63c;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5ba66e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #3e688c;
+        }
+
+        .results-container {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .results-container h2 {
+            font-size: 2rem;
+            color: #3e688c;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            background: #03a63c;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-container p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .next-steps {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .next-steps h3 {
+            color: #3e688c;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">dollarWize</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="quiz_level.html" class="active-nav">Assessment</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="glossary.html">Glossary</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="quiz-header">
+            <div class="container">
+                <h1>Financial Literacy Assessment</h1>
+                <p>Answer a few questions to determine your current financial literacy level and get a personalized learning plan.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="quiz-container" id="quizContent">
+                <div class="question-container">
+                    <div class="question-number">Question <span id="questionNumber"></span> of 5</div>
+                    <p class="question-text" id="questionText"></p>
+                </div>
+                <div class="options" id="optionsContainer">
+                    </div>
+                <div class="navigation">
+                    <button class="btn btn-primary" id="nextBtn">Next</button>
+                    <button class="btn btn-primary" id="submitBtn" style="display: none;">Submit</button>
+                </div>
+            </div>
+
+            <div class="results-container" id="resultsContainer">
+                <h2>Your Financial Persona</h2>
+                <div class="badge" id="personaBadge"></div>
+                <h3 id="personaTitle" style="font-size: 1.5rem; color: #03a63c;"></h3>
+                <p id="personaDescription"></p>
+                <div class="next-steps">
+                    <h3>Your Recommended Next Steps:</h3>
+                    <p id="nextStepsContent"></p>
+                </div>
+                <a href="quiz.html" class="btn btn-primary" style="margin-top: 2rem;">Start a Quiz</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Get the header element
+        const header = document.getElementById('mainHeader');
+        // Define the scroll threshold
+        const scrollThreshold = 50;
+        // Function to handle scroll event
+        function handleScroll() {
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        // Add scroll event listener
+        window.addEventListener('scroll', handleScroll);
+        // Initial check in case the page is loaded with a scroll position
+        document.addEventListener('DOMContentLoaded', handleScroll);
+
+        // Assessment questions designed to categorize users into novice, intermediate, or advanced levels
+        const assessmentQuestions = [
+            {
+                question: "What is the purpose of a 401(k) plan and why is it beneficial?",
+                options: [
+                    "It's a tax-free savings account for a home down payment.",
+                    "It's an employer-sponsored retirement account with potential tax benefits.",
+                    "It's a government pension plan for all citizens.",
+                    "It's a savings account for college tuition."
+                ],
+                correct: 1,
+                weight: { novice: 1, intermediate: 0, advanced: 0 }
+            },
+            {
+                question: "What is the most common range for a 'good' FICO credit score?",
+                options: [
+                    "300-579",
+                    "580-669",
+                    "670-739",
+                    "740-850"
+                ],
+                correct: 2,
+                weight: { novice: 1, intermediate: 0, advanced: 0 }
+            },
+            {
+                question: "What is the primary difference between a stock and a bond?",
+                options: [
+                    "A stock represents ownership in a company, while a bond represents a loan to a company or government.",
+                    "A stock is a loan, a bond is ownership.",
+                    "Stocks are only for advanced investors, bonds are for beginners.",
+                    "Stocks pay interest, bonds pay dividends."
+                ],
+                correct: 0,
+                weight: { novice: 0, intermediate: 1, advanced: 0 }
+            },
+            {
+                question: "What is the primary benefit of a 529 plan?",
+                options: [
+                    "Tax-free withdrawals for qualified education expenses.",
+                    "You can withdraw money at any time for any reason without penalty.",
+                    "It's a guaranteed rate of return.",
+                    "It has no annual contribution limits."
+                ],
+                correct: 0,
+                weight: { novice: 0, intermediate: 1, advanced: 0 }
+            },
+            {
+                question: "What is the relationship between risk and return in investments?",
+                options: [
+                    "Higher risk always guarantees higher returns",
+                    "There is no relationship between risk and return",
+                    "Generally, higher potential returns come with higher risk, but returns are never guaranteed",
+                    "Lower risk investments always perform better"
+                ],
+                correct: 2,
+                weight: { novice: 0, intermediate: 1, advanced: 2 }
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let scores = { novice: 0, intermediate: 0, advanced: 0 };
+
+        // Get DOM elements
+        const quizContent = document.getElementById('quizContent');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const questionNumberSpan = document.getElementById('questionNumber');
+        const questionTextP = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Initialize the quiz when the page loads
+        function initializeQuiz() {
+            displayQuestion();
+            updateProgress();
+        }
+
+        // Display the current question and its options
+        function displayQuestion() {
+            const question = assessmentQuestions[currentQuestion];
+            questionNumberSpan.textContent = `${currentQuestion + 1}`;
+            questionTextP.textContent = question.question;
+
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+        }
+
+        // Handle option selection
+        function selectOption(index) {
+            userAnswers[currentQuestion] = index;
+            document.querySelectorAll('.option').forEach((option, i) => {
+                option.classList.toggle('selected', i === index);
+            });
+            nextBtn.disabled = false;
+        }
+
+        // Handle next button click
+        nextBtn.addEventListener('click', () => {
+            if (userAnswers[currentQuestion] === undefined) {
+                alert("Please select an option before moving on.");
+                return;
+            }
+
+            // Calculate score for the current question
+            const question = assessmentQuestions[currentQuestion];
+            if (userAnswers[currentQuestion] === question.correct) {
+                scores.novice += question.weight.novice;
+                scores.intermediate += question.weight.intermediate;
+                scores.advanced += question.weight.advanced;
+            }
+
+            currentQuestion++;
+            if (currentQuestion < assessmentQuestions.length) {
+                displayQuestion();
+                updateProgress();
+            } else {
+                showResults();
+            }
+        });
+
+        // Update progress display
+        function updateProgress() {
+            // Not needed for this simple assessment, but included for scalability
+        }
+
+        // Display the results and recommendations
+        function showResults() {
+            quizContent.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            // Determine the user's primary level
+            let primaryLevel = 'novice';
+            let maxScore = scores.novice;
+            if (scores.intermediate > maxScore) {
+                maxScore = scores.intermediate;
+                primaryLevel = 'intermediate';
+            }
+            if (scores.advanced > maxScore) {
+                maxScore = scores.advanced;
+                primaryLevel = 'advanced';
+            }
+
+            const personas = {
+                novice: {
+                    badge: 'Rookie Saver',
+                    title: 'Novice Navigator',
+                    description: 'You are just starting your financial journey! You have a solid grasp of basic money concepts and are ready to build a strong foundation for the future.',
+                    nextSteps: 'Start by exploring our Novice quizzes to master fundamental concepts like budgeting, credit scores, and saving. Familiarize yourself with our glossary for a clear understanding of basic financial terms.'
+                },
+                intermediate: {
+                    badge: 'Smart Spender',
+                    title: 'Intermediate Investor',
+                    description: 'You have a good understanding of basic financial concepts and are ready to explore more sophisticated strategies for building wealth and managing risk.',
+                    nextSteps: 'Dive deeper into investment strategies, tax optimization, and retirement planning. Learn about different asset classes and begin building a diversified portfolio.'
+                },
+                advanced: {
+                    badge: 'Financial Guru',
+                    title: 'Advanced Practitioner',
+                    description: 'You demonstrate strong financial literacy and are ready for complex financial strategies, advanced investment techniques, and sophisticated wealth management approaches.',
+                    nextSteps: 'Focus on advanced topics like options trading, real estate investment, tax-advantaged strategies, and estate planning. Consider learning about alternative investments and business finance.'
+                }
+            };
+
+            const persona = personas[primaryLevel];
+
+            document.getElementById('personaBadge').textContent = persona.badge;
+            document.getElementById('personaTitle').textContent = persona.title;
+            document.getElementById('personaDescription').textContent = persona.description;
+            document.getElementById('nextStepsContent').textContent = persona.nextSteps;
+        }
+
+        // Initialize the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>

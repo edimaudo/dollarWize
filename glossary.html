@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Literacy Glossary - dollarWize</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #3e688c 0%, #69bfbf 100%);
+            min-height: 100vh;
+            padding-top: 60px; /* Added padding for fixed header */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header and Navigation Styles (copied from index.html) */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #03a63c;
+        }
+
+        /* Styles for when the header is scrolled */
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header.scrolled .logo {
+            color: #3e688c;
+        }
+
+        header.scrolled .nav-links a {
+            color: #333;
+        }
+
+        header.scrolled .nav-links a:hover {
+            color: #03a63c;
+        }
+        /* End Header and Navigation Styles */
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #3e688c;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid #3e688c;
+            background: white;
+            color: #3e688c;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #3e688c;
+            color: white;
+        }
+
+        .glossary-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .glossary-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .term-card {
+            padding: 1.5rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .term-card:hover {
+            border-color: #69bfbf;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .term-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3e688c;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .term-definition {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .level-badge {
+            background: #e8f2f7;
+            color: #3e688c;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .back-home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        .back-home a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .back-home a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">dollarWize</a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="quiz_level.html">Assessment</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="glossary.html" class="active-nav">Glossary</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="header">
+            <div class="container">
+                <h1>The dollarWize Glossary</h1>
+                <p>Master key financial terms from beginner to expert. A comprehensive guide tailored for the American context.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search for a term...">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-level="all">All Levels</button>
+                    <button class="filter-btn" data-level="novice">Novice</button>
+                    <button class="filter-btn" data-level="intermediate">Intermediate</button>
+                    <button class="filter-btn" data-level="advanced">Advanced</button>
+                </div>
+            </div>
+
+            <div class="glossary-container">
+                <div class="glossary-grid" id="glossaryGrid">
+                    </div>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    No terms found. Please try a different search or filter.
+                </div>
+            </div>
+            
+            <div class="back-home">
+                 <i class="fas fa-arrow-left"></i>
+                 <a href="index.html">Back to Home</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 dollarWize. Empowering financial literacy across America.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Comprehensive financial literacy glossary tailored for US context
+        const financialTerms = [
+            // Novice Level Terms - Foundation concepts every American should know
+            { id: "ira_roth", term: "Roth IRA", definition: "An individual retirement account (IRA) where contributions are made with after-tax dollars, and qualified withdrawals in retirement are tax-free.", level: "novice", category: "retirement" },
+            { id: "401k", term: "401(k) Plan", definition: "An employer-sponsored retirement savings plan in the US. Employees can contribute a portion of their pre-tax salary, often with a company match.", level: "novice", category: "retirement" },
+            { id: "fico_score", term: "FICO Score", definition: "A type of credit score used by lenders to assess a person's creditworthiness. It ranges from 300 to 850, with higher scores being better.", level: "novice", category: "credit" },
+            { id: "cd", term: "CD (Certificate of Deposit)", definition: "A low-risk US investment that guarantees your principal and pays a fixed interest rate over a predetermined period. CDs are insured by the FDIC.", level: "novice", category: "savings" },
+            { id: "mortgage", term: "Mortgage", definition: "A loan specifically used to purchase a home or other real estate. The property serves as collateral for the loan.", level: "novice", category: "real_estate" },
+            { id: "compound_interest", term: "Compound Interest", definition: "Interest calculated on both the principal amount and previously earned interest. This creates exponential growth over time, making it a powerful wealth-building tool.", level: "novice", category: "savings" },
+            { id: "inflation", term: "Inflation", definition: "The rate at which the general level of prices for goods and services rises, reducing purchasing power over time. Currently tracked by the Bureau of Labor Statistics (BLS).", level: "novice", category: "economics" },
+            { id: "net_income", term: "Net Income", definition: "Your 'take-home pay'—the amount of money left after all taxes and other deductions are taken from your gross income.", level: "novice", category: "planning" },
+
+            // Intermediate Level Terms - Building on the foundation
+            { id: "529_plan", term: "529 Plan", definition: "A tax-advantaged savings plan designed to encourage saving for future education costs. Contributions grow tax-deferred and can be withdrawn tax-free for qualified expenses.", level: "intermediate", category: "education" },
+            { id: "hsa", term: "HSA (Health Savings Account)", definition: "A tax-advantaged savings account for people with a high-deductible health plan. Contributions are tax-deductible, and withdrawals for medical expenses are tax-free.", level: "intermediate", category: "savings" },
+            { id: "etf", term: "ETF (Exchange-Traded Fund)", definition: "A type of investment fund that trades on stock exchanges like individual stocks. ETFs typically track an index and often have lower fees than mutual funds.", level: "intermediate", category: "investing" },
+            { id: "mutual_fund", term: "Mutual Fund", definition: "A type of investment vehicle made up of a pool of funds from many investors to invest in securities. Professional fund managers make the investment decisions.", level: "intermediate", category: "investing" },
+            { id: "dca", term: "Dollar-Cost Averaging", definition: "The practice of investing a fixed dollar amount at regular intervals, regardless of the stock price. This helps reduce the impact of market volatility.", level: "intermediate", category: "investing" },
+            { id: "bull_bear_market", term: "Bull & Bear Markets", definition: "A 'bull' market is a period where stock prices are rising. A 'bear' market is a period where stock prices are falling.", level: "intermediate", category: "investing" },
+
+            // Advanced Level Terms - Mastering complex concepts
+            { id: "sharpe_ratio", term: "Sharpe Ratio", definition: "A measure of risk-adjusted return. It calculates the excess return per unit of risk, with higher ratios indicating better performance.", level: "advanced", category: "investing" },
+            { id: "tax_loss_harvesting", term: "Tax Loss Harvesting", definition: "An investment strategy that involves selling losing investments to offset capital gains and reduce your overall tax liability. A maximum of $3,000 can be used to offset ordinary income in the US.", level: "advanced", category: "taxation" },
+            { id: "reit", term: "REIT (Real Estate Investment Trust)", definition: "A company that owns, operates, or finances income-generating real estate. They allow investors to earn income from real estate without owning a property directly.", level: "advanced", category: "real_estate" },
+            { id: "abs", term: "Asset-Backed Security (ABS)", definition: "A financial security backed by a pool of assets, such as loans, leases, or credit card receivables. It helps transform non-tradable assets into tradable securities.", level: "advanced", category: "investing" },
+            { id: "basis", term: "Basis (Tax)", definition: "The original cost of an asset for tax purposes. It is used to calculate the gain or loss when the asset is sold.", level: "advanced", category: "taxation" },
+        ];
+
+        let filteredTerms = financialTerms;
+        let currentFilter = 'all';
+
+        // Get DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const glossaryGrid = document.getElementById('glossaryGrid');
+        const emptyState = document.getElementById('emptyState');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const header = document.getElementById('mainHeader');
+        const scrollThreshold = 50;
+
+        // Function to render terms
+        function displayTerms(terms) {
+            glossaryGrid.innerHTML = ''; // Clear existing terms
+            if (terms.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                terms.forEach(term => {
+                    const termCard = document.createElement('div');
+                    termCard.classList.add('term-card');
+                    termCard.innerHTML = `
+                        <div class="term-title">
+                            ${term.term}
+                            <span class="level-badge">${term.level}</span>
+                        </div>
+                        <p class="term-definition">${term.definition}</p>
+                    `;
+                    glossaryGrid.appendChild(termCard);
+                });
+            }
+        }
+
+        // Function to handle search input
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let filtered = financialTerms.filter(term =>
+                term.term.toLowerCase().includes(searchTerm) ||
+                term.definition.toLowerCase().includes(searchTerm)
+            );
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(term => term.level === currentFilter);
+            }
+
+            filteredTerms = filtered;
+            displayTerms(filtered);
+        }
+
+        // Filter terms by difficulty level
+        function filterByLevel(event) {
+            currentFilter = event.target.dataset.level;
+
+            // Update active button
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const searchTerm = searchInput.value.toLowerCase();
+
+            let filtered = financialTerms;
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(term => term.level === currentFilter);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(term =>
+                    term.term.toLowerCase().includes(searchTerm) ||
+                    term.definition.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            filteredTerms = filtered;
+            displayTerms(filtered);
+        }
+
+        // Add event listeners
+        searchInput.addEventListener('input', handleSearch);
+        filterButtons.forEach(btn => btn.addEventListener('click', filterByLevel));
+
+        // Function to handle scroll event
+        function handleScroll() {
+            if (window.scrollY > scrollThreshold) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('DOMContentLoaded', handleScroll);
+
+
+        // Initial load
+        displayTerms(financialTerms);
+    </script>
+</body>
+</html>
